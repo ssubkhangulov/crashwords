@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  {% load static %}
+  <link rel="stylesheet" href="/static/main/css/style.css?{% now " u"="" %}"="" type="text/css">
+</head>
+<body>
+
+  <div class="constrain constrain_back">
+    <div id="game_content_back">
+      <div id="game_content">
+        asdsasadsaasd
+      </div>
+    </div>
+    <div id="game_body">
+      <div id="game_input_form"style="display: block;">
+
+        <input id="game_input" class="login_input" type="text" autocomplete="off" autocorrect="off" maxlength="20"><br>
+        <input id="game_input_submit" class="login_button" type="button" value="Отправить">
+      </div>
+    </div>
+  </div>
+
+
+
+  <script src="/static/main/js/room_template.js"></script>
+
+  <script>
+    room_socket.onmessage = function(e) {
+      var data = JSON.parse(e.data)
+      console.log(data)
+
+      if (typeof data['set_state'] !== "undefined") {
+        set_state(data)
+        return
+      }
+    }
+  </script>
+
+
+
+</body>
+</html>

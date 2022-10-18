@@ -1,0 +1,55 @@
+{{ room_name|json_script:"json_room_name" }}
+{{ twitch_login|json_script:"json_twitch_login" }}
+
+<div id="columns">
+  <div id="left_column" style="display: none;">
+    <div id="room_code_back">
+      КОД КОМНАТЫ
+      <br>
+      <div id="room_code"> {{ room_name }} </div>
+      <!-- <font size="34px" color="#EB9C54"></font> -->
+      <input id="start_game_button" class="login_button" type="button" value="Начать игру">
+    </div>
+  </div>
+  <div id="right_column">
+    <div id="game_content_back">
+      <div id="game_content">
+        <!-- -- -->
+      </div>
+      <div id="timer"></div>
+      <div id="timer_border">
+        <div id="timer_inner"></div>
+      </div>
+    </div>
+    <div id="game_body">
+
+      <div id="game_input_form" class="constrain " style="display: none;">
+        <input id="game_input" class="login_input" type="text" autocomplete="off" autocorrect="off" maxlength="20"><br>
+        <input id="game_input_submit" class="login_button" type="button" value="Отправить">
+      </div>
+      <div id="clues">
+      </div>
+
+
+      <div id="crashed_clues">
+      </div>
+
+
+
+    </div>
+    <div id="game_results">
+      <table>
+        <thead>
+          <tr>
+            <th>Игрок</th>
+            <th>Счет</th>
+            <th>Подсказок</th>
+            <th>Угадываний</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

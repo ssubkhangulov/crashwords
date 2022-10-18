@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Главная страница
+{% endblock %}
+
+
+{% block body %}
+
+{% include 'main/twitch.html' %}
+
+<div class="constrain constrain_back">
+
+  <div class="divJoinStartTabs" style="margin-bottom:50px">
+    <div class="tabJoinRoom selected" onclick="window.location='{% url 'join' %}'">ПРИСОЕДИНИТЬСЯ</div>
+    <div class="tabStartRoom" onclick="window.location='{% url 'create' %}'">СОЗДАТЬ</div>
+  </div>
+
+
+  <form action="{% url 'room' %}" method="post">
+    {% csrf_token %}
+    <input name="room_name" class="login_input" type="text" autocomplete="off" autocorrect="off" placeholder="4-ЗНАЧНЫЙ КОД" maxlength=4>
+    <button class='login_button' type="submit">ИГРАТЬ</button>
+  </form>
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Комната
+{% endblock %}
+
+{% block body %}
+  {% include 'main/room_template.html' %}
+
+  {% load static %}
+  <script src="/static/main/js/room_template.js"></script>
+
+  <script>
+    document.querySelector('.main_header').innerHTML += `
+        <div class="popup-button">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/1024px-Hamburger_icon.svg.png" width="42" height="42" onclick="">
+        </div>
+        `
+    document.querySelector('#timer_border').style.display = 'block'
+    document.querySelector('#left_column').style.display = 'block'
+
+    room_socket.onmessage = function(e) {
+      var data = JSON.parse(e.data)
+      console.log(data)
+      switch (data['action']) {
+        case 'turn_next_state':
+          current_time[data['current_state']] = -1
+          return
+        case 'set_state':
+          set_state(data)
+          run_timer(data['set_state'])
+          break
+        case 'add_clue':
+          add_clue(data['user_name'])
+          break
+        case 'add_user':
+          row = add_user(data)
+          update_table(row)
+          break
+        case 'show_table':
+          show_result(data)
+          break
+        case 'change_like_count':
+          change_like_count(data)
+          break
+        case 'switch_streamer_mode':
+          streamer_mode = data['streamer_mode']
+          document.querySelector('#streamer_mode').checked = data['streamer_mode']
+          break
+        default:
+          break
+      }
+    }
+
+    var game_settings = {
+      'start_round': 45,
+      'start_guessing': 60,
+      'show_result': 15,
+    }
+    var current_time = {...game_settings}
+
+    document.querySelector('#start_game_button').onclick = function(e) {
+      document.querySelector('#start_game_button').style.display = 'none'
+      next_state()
+    }
+
+    function run_timer(key) {
+      // document.querySelector('#timer').innerHTML = current_time[key]
+      if (current_time[key] >= 0) {
+        document.querySelector('#timer_border').style.visibility = 'visible'
+        document.querySelector('#timer_inner').style.width = `${Math.round(current_time[key]/game_settings[key]*100)}%`
+      } else {
+        document.querySelector('#timer_border').style.visibility = 'hidden'
+      }
+      setTimeout(() => {
+        current_time[key] -= 1
+        if (current_time[key] >= 0) {
+          run_timer(key)
+        } else {
+          next_state()
+        }
+      }, 1 * 1000);
+    }
+
+    function next_state() {
+      if (current_time['show_result'] < 0) {
+        current_time = {...game_settings}
+      }
+      for (var key in current_time) {
+        if (current_time[key] >= 0) {
+          current_time[key] = Math.min(current_time[key], game_settings[key])
+          room_socket.send(JSON.stringify({
+            'action': 'set_state',
+            'set_state': key,
+          }))
+          return
+        }
+      }
+    }
+  </script>
+
+{%  endblock %}
+
+
+{% block popup-body%}
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="streamer_mode">Режим стримера
+    <br><br>
+    Вы можете присоединиться к комнате дополнительно с любого удобного устройства, и тогда режим стримера включится автоматически. В режиме стримера вы не будете видеть загаданные слова в текущем окне.
+    <!-- <br><br>
+    <input class="form-check-input" type="checkbox" id="allow_connection" checked>Разрешить подключение -->
+  </div>
+
+  <script>
+    a = 10
+    var b = a
+    console.log(b)
+    streamer_mode = false
+    document.querySelector('#streamer_mode').addEventListener('change', (event) => {
+      event.currentTarget.checked = streamer_mode
+    })
+
+    // allow_connection = true
+    // document.querySelector('#allow_connection').addEventListener('change', (event) => {
+    //   allow_connection = event.currentTarget.checked
+    // })
+  </script>
+{% endblock %}

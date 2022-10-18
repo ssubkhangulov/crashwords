@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login</title>
+</head>
+<body>
+  <form id="jsform" method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    <input id="access_token" type="text" name="access_token" value="" style="display: none;">
+  </form>
+
+
+  <script>
+    if (document.location.hash && document.location.hash != '') {
+      var parsedHash = new URLSearchParams(window.location.hash.slice(1))
+      if (parsedHash.get('access_token')) {
+        var access_token = parsedHash.get('access_token')
+        document.querySelector('input[name="access_token"]').value = access_token
+      }
+    }
+    document.getElementById('jsform').submit()
+  </script>
+</body>
+</html>

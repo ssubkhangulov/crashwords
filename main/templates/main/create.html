@@ -1,0 +1,35 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Главная страница
+{% endblock %}
+
+
+{% block body %}
+
+{% include 'main/twitch.html' %}
+
+<div class="constrain constrain_back">
+
+  <div class="divJoinStartTabs" style="margin-bottom:50px">
+    <div class="tabJoinRoom" onclick="window.location='{% url 'join' %}'">ПРИСОЕДИНИТЬСЯ</div>
+    <div class="tabStartRoom selected" onclick="window.location='{% url 'create' %}'">СОЗДАТЬ</div>
+  </div>
+
+  <form action="{% url 'host' %}" method="post">
+    {% csrf_token %}
+    <!-- <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+      <label class="form-check-label" for="flexSwitchCheckDefault">Режим стримера</label>
+    </div> -->
+    <!-- <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+      <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
+    </div> -->
+    <!-- <br> -->
+    <button class='login_button' id="join_button" type="submit">ИГРАТЬ</button>
+  </form>
+
+
+</div>
+{%  endblock %}

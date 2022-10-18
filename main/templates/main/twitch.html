@@ -1,0 +1,16 @@
+
+<div class="constrain constrain_back">
+  {% if twitch_login != None %}
+    <h3 style="color: #9b8163">{{ twitch_login }}</h3>
+  {% endif %}
+    <img src="https://static.twitchcdn.net/assets/favicon-32-e29e246c157142c94346.png">
+    {% if twitch_login != None %}
+      <a target="_self" href="{% url 'login' %}" class="twitch_button">
+        Выйти
+      </a>
+    {% else %}
+      <a target="_self" href="https://id.twitch.tv/oauth2/authorize?client_id=f88v1abv16wh89ssce0hhvoswqvl9o&redirect_uri=http://localhost:8000/login&response_type=token" class="twitch_button">
+        Войти
+      </a>
+    {% endif %}
+</div>

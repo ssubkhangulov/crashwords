@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Комната
+{% endblock %}
+
+
+{% block body %}
+  {% include 'main/room_template.html' %}
+
+  {{ room_name|json_script:"json_room_name" }}
+  {{ twitch_login|json_script:"json_twitch_login" }}
+
+  {% load static %}
+  <script src="/static/main/js/room_template.js"></script>
+
+
+{%  endblock %}

@@ -1,5 +1,5 @@
-# crashword_ru
+# crashwords
 Multiplayer web game on django
 
-authorization via Twitch
+authorization only via Twitch
 

@@ -1,2 +1,5 @@
 # crashword_ru
-Multiplayer web game
+Multiplayer web game on django
+
+authorization via Twitch
+
